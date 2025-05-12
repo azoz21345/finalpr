@@ -1,0 +1,102 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:testfinal/finalpage.dart';
+import 'package:testfinal/homepage.dart';
+import 'package:testfinal/sqldb.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:testfinal/users.dart';
+
+class LoginPage extends StatefulWidget{
+  @override
+  State<StatefulWidget> createState()=>_LoginPage();
+
+}
+class _LoginPage extends State<LoginPage>{
+final numbercontroler=TextEditingController();
+final codecontroler=TextEditingController();
+
+login()async{
+  var user = await SqlDb.instance.loginUser(numbercontroler.text,codecontroler.text);
+  if(user != null){
+    if(!mounted) return;
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>FinalPage(usr: user)));
+  }else{
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("خطأ كلمة المرور او الكود"),
+      duration: Duration(seconds: 3),
+      behavior: SnackBarBehavior.fixed,
+    )
+    );
+  }
+}
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar:  AppBar(
+          title: Text("Login page"),
+        ),
+        body:
+        Container(
+          decoration: BoxDecoration(
+              color: Colors.grey
+          ),
+          padding: EdgeInsets.all(20),
+          margin: EdgeInsets.all(10),
+          child:
+          Column(
+            children: [
+              Container(
+                padding: EdgeInsets.all(20),
+                child:
+                Row(
+                  children: [
+                Expanded(child: TextField(
+                  controller: numbercontroler,
+                  decoration:
+                  InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      hintText: "Number"
+                  ),
+                )),
+                    SizedBox(width: 50,),
+                    Expanded(child: TextField(
+                      controller: codecontroler,
+                      decoration:
+                      InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          hintText: "Code"
+                      ),
+                    ))                  ],
+                ),
+              ),SizedBox(height: 50,)
+              ,
+
+              Container(
+                padding: EdgeInsets.all(20),
+                child:
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ElevatedButton(onPressed: (){
+                      login();
+                    },style: ElevatedButton.styleFrom(fixedSize: Size(100, 200),shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero)), child: Text("Login ")),
+                    SizedBox(width: 10,),
+                    ElevatedButton(onPressed: (){
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomePgae()),
+                            (Route<dynamic> route) => false,
+                      );
+                    },style: ElevatedButton.styleFrom(fixedSize: Size(100, 200),shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero)), child: Text("Home")),
+                  ],
+                ),
+              )
+            ],
+          ),
+        )
+    );
+  }
+
+}
