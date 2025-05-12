@@ -1,0 +1,66 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:testfinal/controlpage.dart';
+import 'package:testfinal/loginpage.dart';
+
+
+class HomePgae extends StatefulWidget{
+  @override
+  State<StatefulWidget> createState()=>_HomePage();
+
+}
+class _HomePage extends State<HomePgae>{
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar:  AppBar(
+        title: Text("HomePage"),
+      ),
+      body:
+      Container(
+        decoration: BoxDecoration(
+          color: Colors.grey
+        ),
+        padding: EdgeInsets.all(20),
+        margin: EdgeInsets.all(10),
+        child:
+        Column(
+          children: [
+            Container(
+              padding: EdgeInsets.all(20),
+              child:
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  ElevatedButton(onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+                  },style: ElevatedButton.styleFrom(fixedSize: Size(150, 60),shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero)), child: Text("Login page")),
+                  SizedBox(width: 10,),
+                  ElevatedButton(onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>ControlPage()));
+                  },style: ElevatedButton.styleFrom(fixedSize: Size(150, 60),shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero)), child: Text("Control Page")),
+                ],
+              ),
+            ),SizedBox(height: 50,)
+            ,ElevatedButton(onPressed: (){
+              exit(0);
+            },style: ElevatedButton.styleFrom(fixedSize: Size(250, 60),shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero)), child: Text("colse")),
+            SizedBox(height: 100,),
+            Container(
+              decoration: BoxDecoration(
+                  color: Colors.white
+              ),
+              width: 250,
+              height: 50,
+              alignment: Alignment.center,
+              child: Text("مازن فهد العوفي"),
+            )
+          ],
+        ),
+      )
+    );
+  }
+
+}
